@@ -4,11 +4,25 @@ This is a fork of Jeff Horelick's "epkg", rewritten in C. It serves as a wrapper
 
 The syntax is aimed to be an amalgamation of the sane command names from apt-get, dpkg and yum. Actually closer to ipkg/opkg than anything else.
 
-## Installation Instructions
+## Installation
 
-```
-WIP
-```
+To install Epkgc, follow these steps:
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/TuxForge/epkgc.git
+   ```
+
+2. Change to the epkgc directory:
+   ```
+   cd epkgc
+   ```
+
+3. Install using make:
+   ```
+   sudo make clean install
+   ```
+
 
 ## Authors
 
