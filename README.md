@@ -11,6 +11,7 @@ Patches and pull requests are welcome.
 	emerge epkg
 
 ## Authors ##
+* Gurov <gurov@atl.tools>
 * Jeff Horelick <jdhore@gentoo.org>
 * Douglas Freed <dwfreed@mtu.edu>
 * Miramir <gmiramir@gmail.com>
