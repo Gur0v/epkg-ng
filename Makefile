@@ -4,7 +4,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -O2 -march=native -mtune=native
 
-SRCS = epkg.c
+SRCS = epkgc.c
 
 OBJS = $(SRCS:.c=.o)
 
