@@ -2,7 +2,7 @@ TARGET = epkg
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -O2
+CFLAGS = -Wall -Wextra -O2 -march=native -mtune=native
 
 SRCS = epkg.c
 
