@@ -1,0 +1,110 @@
+#!/bin/bash
+
+cmd_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+wait_effect() {
+    sleep 0.5
+}
+
+pkg_installed() {
+    local pkg_name=$1
+    ! emerge -s "$pkg_name" | grep -q "$$ Not Installed $$"
+}
+
+echo "Checking for required dependencies: zstd and curl..."
+wait_effect
+for cmd in zstd curl; do
+    if cmd_exists "$cmd"; then
+        echo "Dependency $cmd is installed."
+    else
+        echo "Error: $cmd is not installed. Please install it before proceeding."
+        exit 1
+    fi
+    wait_effect
+done
+
+read -r -p "Do you wish to install epkgc? [y/N] " install_epkgc
+if [[ "$install_epkgc" =~ ^[Yy]$ ]]; then
+    INSTALL_DIR="/tmp/epkgc-installer"
+    echo "Creating installation directory at $INSTALL_DIR..."
+    mkdir -p "$INSTALL_DIR"
+    wait_effect
+
+    echo "Downloading epkg.tar.zst from the release URL to $INSTALL_DIR..."
+    curl -L -o "$INSTALL_DIR/epkg.tar.zst" "https://github.com/Gur0v/epkgc/releases/download/1.0/epkg.tar.zst"
+    echo "Download completed."
+    wait_effect
+
+    if pkg_installed "app-portage/gentoolkit"; then
+        echo "app-portage/gentoolkit is already installed. Skipping installation."
+    else
+        echo "Installing app-portage/gentoolkit..."
+        sudo emerge --ask --verbose app-portage/gentoolkit
+        echo "gentoolkit installed."
+    fi
+    wait_effect
+
+    if pkg_installed "app-portage/eix"; then
+        echo "app-portage/eix is already installed. Skipping installation."
+    else
+        echo "Installing app-portage/eix..."
+        sudo emerge --ask --verbose app-portage/eix
+        echo "eix installed."
+    fi
+    wait_effect
+
+    if [[ -f /usr/bin/epkg ]]; then
+        echo "/usr/bin/epkg already exists."
+        wait_effect
+        read -r -p "Do you want to delete the existing /usr/bin/epkg? [Y/n] " delete_epkg
+        if [[ "$delete_epkg" =~ ^[Yy]$ ]]; then
+            echo "Removing /usr/bin/epkg..."
+            sudo rm -f /usr/bin/epkg
+            echo "Removed existing /usr/bin/epkg."
+        else
+            echo "Keeping the existing /usr/bin/epkg."
+        fi
+        wait_effect
+    fi
+
+    echo "Checking if app-portage/epkg is installed..."
+    wait_effect
+    if pkg_installed "app-portage/epkg"; then
+        echo "app-portage/epkg is currently installed. Performing depclean..."
+        sudo emerge --depclean app-portage/epkg
+        echo "app-portage/epkg has been depcleaned."
+    else
+        echo "app-portage/epkg is not installed."
+        wait_effect
+        echo "Ensuring no remnants of previous installations..."
+        sudo rm -f /usr/bin/epkg
+        echo "Cleaned up any leftovers."
+    fi
+    wait_effect
+
+    echo "Extracting epkg.tar.zst in $INSTALL_DIR..."
+    tar --use-compress-program=zstd -xpf "$INSTALL_DIR/epkg.tar.zst" -C "$INSTALL_DIR"
+    echo "Extraction completed."
+    wait_effect
+
+    echo "Moving epkg to /usr/bin/..."
+    sudo mv "$INSTALL_DIR/epkg" /usr/bin/epkg
+    echo "epkg moved to /usr/bin/epkg."
+    wait_effect
+
+    read -r -p "Do you want to clean up the installer directory at $INSTALL_DIR? [Y/n] " cleanup
+    if [[ "$cleanup" =~ ^[Yy]$ ]] || [[ -z "$cleanup" ]]; then
+        echo "Cleaning up installation directory..."
+        rm -rf "$INSTALL_DIR"
+        echo "Installation directory cleaned up."
+    else
+        echo "Skipping cleanup of the installation directory."
+    fi
+    wait_effect
+
+    echo "Installation of epkgc finished successfully."
+else
+    echo "Installation aborted by the user."
+fi
