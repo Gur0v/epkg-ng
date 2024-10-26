@@ -55,26 +55,11 @@ if [[ "$install_epkgc" =~ ^[Yy]$ ]]; then
     fi
     wait_effect
 
-    if [[ -f /usr/bin/epkg ]]; then
-        echo "/usr/bin/epkg already exists."
-        wait_effect
-        read -r -p "Do you want to delete the existing /usr/bin/epkg? [Y/n] " delete_epkg
-        if [[ "$delete_epkg" =~ ^[Yy]$ ]]; then
-            echo "Removing /usr/bin/epkg..."
-            sudo rm -f /usr/bin/epkg
-            echo "Removed existing /usr/bin/epkg."
-        else
-            echo "Keeping the existing /usr/bin/epkg."
-        fi
-        wait_effect
-    fi
-
     echo "Checking if app-portage/epkg is installed..."
     wait_effect
     if pkg_installed "app-portage/epkg"; then
-        echo "app-portage/epkg is currently installed. Performing depclean..."
-        sudo emerge --depclean app-portage/epkg
-        echo "app-portage/epkg has been depcleaned."
+        echo "app-portage/epkg is currently installed. Removing it..."
+        sudo emerge --ask --verbose --depclean app-portage/epkg
     else
         echo "app-portage/epkg is not installed."
         wait_effect
