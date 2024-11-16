@@ -22,11 +22,6 @@ To install Epkgc, follow these steps:
    ```
    sudo make clean install
    ```
-Or you can do the following:
-   ```
-   curl https://raw.githubusercontent.com/Gur0v/epkgc/refs/heads/master/epkgc-installer | bash
-   ```
-
 
 ## Authors
 
