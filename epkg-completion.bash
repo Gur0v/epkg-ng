@@ -1,14 +1,13 @@
 #!/bin/bash
-
 _epkg_completions() {
     local cur prev opts
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     
-    local commands="install remove update upgrade search show autoremove autoclean clean forceremove listfiles listinstalled provides depends uses verify verifyall sysinfo moo"
+    local commands="install remove update upgrade search show configure autoremove autoclean clean forceremove listfiles listinstalled provides depends uses verify verifyall sysinfo moo"
     
-    local package_commands="install remove search show forceremove listfiles provides depends uses verify"
+    local package_commands="install remove search show configure forceremove listfiles provides depends uses verify"
     local file_commands="provides"
     
     if [[ ${COMP_CWORD} == 1 ]]; then
@@ -22,7 +21,7 @@ _epkg_completions() {
         install)
             _epkg_available_packages
             ;;
-        remove|forceremove|listfiles|depends|uses|verify|show)
+        remove|forceremove|listfiles|depends|uses|verify|show|configure)
             _epkg_installed_packages
             ;;
         search)
