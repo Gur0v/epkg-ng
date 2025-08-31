@@ -7,6 +7,7 @@ OBJDIR = obj
 PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
 MANDIR = $(PREFIX)/share/man/man1
+COMPDIR = $(PREFIX)/share/bash-completion/completions
 
 SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
@@ -30,10 +31,16 @@ install: $(TARGET)
 	@echo "Installing $(TARGET) to $(BINDIR)"
 	install -d $(BINDIR)
 	install -m755 $(TARGET) $(BINDIR)/$(TARGET)
+	@if [ -f epkg-completion.bash ]; then \
+		echo "Installing bash completion to $(COMPDIR)"; \
+		install -d $(COMPDIR); \
+		install -m644 epkg-completion.bash $(COMPDIR)/epkg; \
+	fi
 
 uninstall:
 	@echo "Removing $(TARGET) from $(BINDIR)"
 	rm -f $(BINDIR)/$(TARGET)
+	rm -f $(COMPDIR)/epkg
 
 clean:
 	rm -rf $(OBJDIR) $(TARGET)
