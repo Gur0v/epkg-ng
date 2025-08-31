@@ -16,7 +16,7 @@ static const Command commands[] = {
     {"install", "emerge -av", 1},
     {"remove", "emerge --depclean -av", 1},
     {"update", "eix-sync", 0},
-    {"upgrade", "emerge -uDNva --with-bdeps=y @world", 0},
+    {"upgrade", "emerge -uDNva @world", 0},
     {"search", "eix", 1},
     {"autoremove", "emerge --depclean -a", 0},
     {"autoclean", "eclean-dist -df", 0},
