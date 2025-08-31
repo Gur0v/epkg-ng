@@ -22,6 +22,7 @@ static const Command commands[] = {
     {"autoremove", "emerge --depclean -a", 0},
     {"autoclean", "eclean-dist -df", 0},
     {"clean", "eclean-dist -daf", 0},
+    {"configure", "emerge --config -a", 1},
     {"forceremove", "emerge --unmerge -av", 1},
     {"listfiles", "equery files", 1},
     {"listinstalled", "equery list '*'", 0},
@@ -46,6 +47,7 @@ void print_help() {
            "  upgrade       Upgrade all installed packages\n"
            "  search        Search for packages\n"
            "  show          Show detailed package information\n"
+           "  configure     Configure installed packages\n"
            "  autoremove    Remove orphaned packages\n"
            "  autoclean     Clean old source files\n"
            "  clean         Clean all source files\n"
