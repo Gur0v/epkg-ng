@@ -24,11 +24,11 @@ This project represents a ground-up rewrite of the original bash-based epkg in C
 | **Security** | Shell injection vulnerabilities | Input sanitization & validation |
 | **Build System** | Simple script file | Professional Makefile with optimization |
 | **Completions** | None | Advanced bash completion support |
-| **Commands** | 15 basic commands | 18+ commands with enhanced functionality |
+| **Commands** | 15 basic commands | 19+ commands with enhanced functionality |
 
 ### New Features Not in Original
 
-- **Enhanced command set** - Additional commands like `show`, `depends`, `uses`
+- **Enhanced command set** - Additional commands like `show`, `depends`, `uses`, `configure`
 - **Bash completion** - Intelligent tab completion for commands and package names
 - **Optimized builds** - Support for debug, release, and native-optimized compilation
 - **Better argument handling** - Robust parsing with length limits and validation
@@ -80,6 +80,7 @@ make clean && make
 | `install` | Install new packages | `emerge -av` | Yes |
 | `remove` | Remove packages safely | `emerge --depclean -av` | Yes |
 | `forceremove` | Force remove packages (unsafe) | `emerge --unmerge -av` | Yes |
+| `configure` | Configure installed packages | `emerge --ask --config` | Yes |
 | `update` | Update package repository | `eix-sync -a` | No |
 | `upgrade` | Upgrade all installed packages | `emerge -uDNva @world` | No |
 | `autoremove` | Remove orphaned packages | `emerge --depclean -a` | No |
@@ -131,6 +132,9 @@ epkg provides /usr/bin/firefox
 # Update repository and upgrade system
 epkg update
 epkg upgrade
+
+# Configure a package after installation
+epkg configure apache2
 
 # Clean up system after removing packages
 epkg autoremove
@@ -185,7 +189,7 @@ Other distributions are not supported due to dependency on Portage ecosystem.
 
 ### Enhanced Features
 - Standardized `clean` command using `eclean-dist -daf`
-- Added `show`, `depends`, `uses` commands
+- Added `show`, `depends`, `uses`, `configure` commands
 - Improved `upgrade` command with better flags
 - Better error messages and validation
 - Professional build and installation system
