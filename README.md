@@ -27,7 +27,7 @@ epkg install <package>        # Install packages
 epkg remove <package>         # Remove packages
 epkg update                   # Update repositories
 epkg upgrade                  # Upgrade system
-epkg autoremove              # Remove orphaned packages
+epkg autoremove               # Remove orphaned packages
 ```
 
 ### Package Information
